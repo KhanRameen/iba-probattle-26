@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+//enums
+enum Role {
+  PROVIDER
+  SEEKER
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+//schemas
+model User {
+  id        String    @id @default(uuid())
+  name      String
+  email     String    @unique
+  password  String
+  role      Role      @default(SEEKER)
+  services  Service[]
+  bookings  Booking[]
+  createdAt DateTime  @default(now())
+
+  @@map("user")
+}
+
+model Service {
+  id          String    @id @default(uuid())
+  title       String
+  description String
+  price       Int
+  providerId  String
+  provider    User      @relation(fields: [providerId], references: [id])
+  bookings    Booking[]
+  createdAt   DateTime  @default(now())
+
+  @@map("service")
+}
+
+model Booking {
+  id        String        @id @default(uuid())
+  serviceId String
+  seekerId  String
+  service   Service       @relation(fields: [serviceId], references: [id])
+  seeker    User          @relation(fields: [seekerId], references: [id])
+  status    BookingStatus @default(PENDING)
+  createdAt DateTime      @default(now())
+
+  @@map("booking")
+}
