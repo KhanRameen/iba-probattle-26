@@ -1,41 +1,62 @@
 //create user: provider/seeker
 
+import { auth } from "@/utils/lib/auth";
 import { prisma } from "@/utils/lib/prisma";
+import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
+import * as z from "zod";
+
+//schema
+const updateUserSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  role: z.enum(["PROVIDER", "SEEKER"]),
+  neighborhoodId: z.string().uuid("Invalid neighborhood id"),
+});
+
 export async function POST(req: Request) {
-  let body;
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
-  try {
-    body = await req.json();
-    console.log(body);
-  } catch {
-    console.log(body);
-    return new Response(JSON.stringify({ error: "Invalid JSON body" }), {
-      status: 400,
-    });
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { name, email, password, role } = body;
+  const body = await req.json();
 
-  if (!name || !email || !password || !role) {
-    return NextResponse.json({ error: "Missing fields" }, { status: 400 });
+  const parsed = updateUserSchema.safeParse(body);
+
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: parsed.error.flatten() },
+      { status: 400 },
+    );
   }
 
-  const user = await prisma.user.create({
+  const { name, role, neighborhoodId } = parsed.data;
+
+  const neighborhood = await prisma.neighborhood.findUnique({
+    where: { id: neighborhoodId },
+  });
+
+  if (!neighborhood) {
+    return NextResponse.json(
+      { error: "Neighborhood not found" },
+      { status: 400 },
+    );
+  }
+
+  const user = await prisma.user.update({
+    where: {
+      id: session.user.id,
+    },
     data: {
       name,
-      email,
-      password,
       role,
+      neighborhoodId,
     },
   });
 
-  if (!user) {
-    return NextResponse.json(
-      { error: `Error Creating User. User:${user}` },
-      { status: 500 },
-    );
-  }
-  return NextResponse.json(user);
+  return NextResponse.json({ data: user }, { status: 200 });
 }

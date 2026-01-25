@@ -1,3 +1,10 @@
+        ⬡ ⬡ ⬡
+     ⬡ ⬡ ⬡ ⬡ ⬡
+
+⬡ ⬡ USER ⬡ ⬡
+⬡ ⬡ ⬡ ⬡
+⬡ ⬡
+
 # 🏘️ Neighbourly — Stage 1: Neighborhood Pilot MVP
 
 **PROBATTLE26 — Web Development Case Study Challenge**
