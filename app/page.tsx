@@ -236,7 +236,7 @@ export default function Home() {
                 key={service.id}
                 service={service}
                 onBook={handleBook}
-                isOwnService={user.id === service.providerId}
+                isOwnService={user?.id === service.providerId}
               />
             ))}
           </div>
