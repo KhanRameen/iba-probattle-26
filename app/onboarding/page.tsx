@@ -62,11 +62,9 @@ export default function OnboardingPage() {
 
         toast.success("Redirecting to your Home Screen")
 
-        if (role === "PROVIDER") {
-            router.push("/provider/dashboard");
-        } else {
-            router.push("/seeker/home");
-        }
+
+        router.push("/");
+
     }
 
 

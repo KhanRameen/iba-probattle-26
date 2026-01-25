@@ -8,7 +8,7 @@ import { gridDisk } from "h3-js";
 import { ListingType } from "@/generated/prisma/enums";
 
 export async function GET(req: Request) {
-  const userOrResponse = await requireRole(req, ["SEEKER"]);
+  const userOrResponse = await requireRole(req, ["SEEKER", "PROVIDER"]);
   if (userOrResponse instanceof NextResponse) return userOrResponse;
   const user = userOrResponse;
 

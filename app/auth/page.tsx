@@ -1,16 +1,16 @@
-import { AuthCard } from "@/components/auth/auth-card";
-import { auth } from "@/utils/lib/auth";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+"use client"
 
-export default async function AuthPage() {
-    const session = await auth.api.getSession({
-        headers: await headers()
-    })
-    if (session) {
-        redirect("/")
+import { AuthCard } from "@/components/auth/auth-card"
+import { useAuth } from "@/components/providers/auth-provider";
+import { useRouter } from "next/navigation";
+
+
+export default function AuthPage() {
+    const { user, loading: authLoading } = useAuth(["SEEKER", "PROVIDER"])
+    const router = useRouter();
+    if (user) {
+        router.push("/");
     }
-
 
     return (
         <main className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
