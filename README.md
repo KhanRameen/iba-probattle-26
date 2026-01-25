@@ -1,17 +1,136 @@
-        ⬡ ⬡ ⬡
-     ⬡ ⬡ ⬡ ⬡ ⬡
-
-⬡ ⬡ USER ⬡ ⬡
-⬡ ⬡ ⬡ ⬡
-⬡ ⬡
-
-# 🏘️ Neighbourly — Stage 1: Neighborhood Pilot MVP
+# 🏘️ Neighbourly — Neighborhood Pilot MVP
 
 **PROBATTLE26 — Web Development Case Study Challenge**
 
 Neighbourly is a hyper-local community marketplace designed to connect neighbors for skill-sharing, tool rentals, tutoring, and specialized local services.
 
 This repository implements **Stage 1: Neighborhood Pilot**, focusing on **role-based access, core functionality, and domain correctness** in a single-community environment.
+
+---
+
+# Stage 2 - Provider & Seeker Features Implementation
+
+In **Stage 2**, I implemented the full backend and frontend functionality for both **Providers** and **Seekers**, including service creation, booking, ratings, filtering, neighborhood-based radius search, and caching with Redis. All core features are now live and working with RBAC (Role-Based Access Control).
+
+---
+
+## Features Implemented
+
+### 1. Provider Dashboard
+
+- Providers can **create services** with:
+  - `title`, `description`, `price`, and **type** (`SERVICE`, `SKILL`, `TOOL`)
+  - Select **neighborhood** from a list fetched via API
+- **View all their services** with live bookings attached
+- **View bookings** for their services with seeker info
+- **Rate bookings** made by seekers
+- RBAC ensures only `PROVIDER` users can access this dashboard
+
+**UI snippet:**
+
+```
+Create New Service:
+[Title] [Description] [Price] [Type Selector] [Neighborhood Selector] [Create Button]
+
+Your Services:
+
+Service 1 | $100 | Type: SERVICE
+
+Service 2 | $50 | Type: SKILL
+
+Bookings:
+
+SeekerName booked Service1 - Status: PENDING [Rate Buttons 1-5]
+```
+
+### 2. Seeker Features
+
+- Seekers can **browse services** with multiple filters:
+  - Type, Category, Min/Max Price
+  - **Radius filter** visualized as H3 hexagons around the user
+
+  ⬡ ⬡ ⬡
+  ⬡ ⬡ ⬡ ⬡ ⬡
+  ⬡ ⬡ USER ⬡ ⬡
+  ⬡ ⬡ ⬡ ⬡
+  ⬡ ⬡
+  - Services include provider name, price, description, and any ratings
+
+- **RBAC enforced**: only `SEEKER` users can access filtered service listings
+
+---
+
+### 3. Backend
+
+- **Prisma** models for `User`, `Service`, `Booking`, `Neighborhood`
+- **RBAC checks** using `requireRole` middleware
+- **Redis caching** for GET `/services`:
+  - Cached per user and query params
+  - 60-second TTL for fast repeated queries
+- Neighborhood and radius search implemented with **H3 grid**:
+  - `radiusKmToH3Steps` maps kilometers to H3 steps
+- Full validation of service creation:
+  - Required fields: `title`, `description`, `price`, `type`, `neighborhood`
+  - Enum validation for `type` (`SERVICE` | `SKILL` | `TOOL`)
+  - Providers must have assigned neighborhood or select one during service creation
+
+---
+
+### 4. Frontend
+
+- **React / Next.js 13** with `use client` for dynamic dashboards
+- **Provider Dashboard**:
+  - Fetches services & bookings on load
+  - Create services via POST API
+  - Rate bookings inline
+- **Seeker Page**:
+  - Dynamic filters for type, category, price, radius
+  - Services displayed with provider info and ratings
+- **All APIs integrated** with proper headers, POST bodies, and error handling
+- **Redis caching** for services list ensures fast response and reduced DB load
+
+---
+
+### 5. APIs Implemented
+
+| API                      | Method | Role     | Description                                 |
+| ------------------------ | ------ | -------- | ------------------------------------------- |
+| `/api/provider/services` | GET    | PROVIDER | Get all provider’s services                 |
+| `/api/provider/services` | POST   | PROVIDER | Create new service with type & neighborhood |
+| `/api/provider/bookings` | GET    | PROVIDER | Get bookings for provider services          |
+| `/api/bookings/:id/rate` | POST   | PROVIDER | Rate a booking                              |
+| `/api/services`          | GET    | SEEKER   | Get filtered services with radius & caching |
+| `/api/neighborhoods`     | GET    | ALL      | Get all neighborhoods for select input      |
+
+---
+
+### 6. Caching & Optimization
+
+- **Redis** implemented in `GET /services` route
+- Cache key includes:
+  - User ID, type, category, min/max price, radius
+- Cache invalidation to be added on service creation/update in Stage 3
+
+---
+
+### 7. Workflow Diagram (ASCII)
+
+```
+Provider → Service → Bookings → Rating
++---------+ +---------+ +---------+ +---------+
+| Provider|→ | Service |→ | Booking |→ | Rating |
++---------+ +---------+ +---------+ +---------+
+```
+
+### Stage 2 Completion Summary
+
+All major flows are functional:
+
+- Provider can **create services**, **view bookings**, and **rate**
+- Seeker can **browse services** with **radius and filter options**
+- Redis caching implemented for **performance**
+- RBAC ensures **proper access control**
+- Neighborhood search fully integrated
 
 ---
 
