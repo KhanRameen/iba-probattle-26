@@ -1,7 +1,5 @@
 "use client"
 
-console.log("🔥 AuthCard module loaded");
-
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -31,7 +29,7 @@ export function AuthCard() {
     console.log("Current mode state:", mode);
 
     const handleSubmit = async (e: React.FormEvent) => {
-        console.log("🚀 Form submitted!");
+        console.log("Form submitted!");
         e.preventDefault()
         e.stopPropagation()
 
@@ -92,7 +90,7 @@ export function AuthCard() {
     }
 
     const toggleMode = (e: React.MouseEvent) => {
-        console.log("🎯 Toggle button clicked!");
+        console.log("Toggle button clicked!");
         e.preventDefault()
         e.stopPropagation()
 
@@ -179,7 +177,7 @@ export function AuthCard() {
                                 type="button"
                                 onClick={(e) => {
                                     e.preventDefault()
-                                    console.log("👁️ Toggle password visibility");
+                                    console.log("Toggle password visibility");
                                     setShowPassword(!showPassword)
                                 }}
                                 className="absolute right-3 top-1/2 -translate-y-1/2"
