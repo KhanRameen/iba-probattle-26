@@ -1,12 +1,20 @@
+![Next.js](https://img.shields.io/badge/Next.js-black?logo=next.js)
+![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white)
+![Better Auth](https://img.shields.io/badge/Better%20Auth-000000?logo=auth0&logoColor=white)
+![NeonDB](https://img.shields.io/badge/Neon-00E5A8?logo=neon&logoColor=black)
+![Prisma](https://img.shields.io/badge/Prisma-2D3748?logo=prisma)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?logo=postgresql&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-DC382D?logo=redis&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-06B6D4?logo=tailwindcss&logoColor=white)
+
 # Neighbourly — Neighborhood Marketplace MVP
 
 **PROBATTLE26 — Web Development Case Study Challenge**
 
 Neighbourly is a hyper-local community marketplace designed to connect neighbors for skill-sharing, tool rentals, tutoring, and specialized local services.
 
-This repository implements **Stage 1: Neighborhood Pilot**, focusing on **role-based access, core functionality, and domain correctness** in a single-community environment.
-
 ---
+
 
 # Stage 2 - Provider & Seeker Features, Radius Base Discovery
 
