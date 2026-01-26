@@ -1,4 +1,4 @@
-# 🏘️ Neighbourly — Neighborhood Pilot MVP
+# Neighbourly — Neighborhood Marketplace MVP
 
 **PROBATTLE26 — Web Development Case Study Challenge**
 
@@ -8,9 +8,9 @@ This repository implements **Stage 1: Neighborhood Pilot**, focusing on **role-b
 
 ---
 
-# Stage 2 - Provider & Seeker Features Implementation
+# Stage 2 - Provider & Seeker Features Implementation , Radius Base Discovery
 
-In **Stage 2**, I implemented the full backend and frontend functionality for both **Providers** and **Seekers**, including service creation, booking, ratings, filtering, neighborhood-based radius search, and caching with Redis. All core features are now live and working with RBAC (Role-Based Access Control).
+In **Stage 2**, I implemented the full backend and frontend functionality for both **Providers** and **Seekers**, including service creation, booking, ratings, filtering, neighborhood-based radius search using **Uber’s H3**, and caching with Redis. All core features are now live and working with RBAC (Role-Based Access Control).
 
 ---
 
@@ -54,6 +54,7 @@ SeekerName booked Service1 - Status: PENDING [Rate Buttons 1-5]
   ⬡ ⬡ USER ⬡ ⬡
   ⬡ ⬡ ⬡ ⬡
   ⬡ ⬡
+  
   - Services include provider name, price, description, and any ratings
 
 - **RBAC enforced**: only `SEEKER` users can access filtered service listings
@@ -134,10 +135,8 @@ All major flows are functional:
 
 ---
 
-## 🎯 Objective (Stage 1)
-
-Stage 1 focuses on:
-
+# Stage 1 
+## Objectives:
 - Creating users with defined roles (`PROVIDER` or `SEEKER`)
 - Allowing providers to post services
 - Enabling seekers to browse and book services
@@ -147,7 +146,7 @@ This stage intentionally **ignores scale, multi-city logic, and real-time featur
 
 ---
 
-## 🧱 Tech Stack
+## Tech Stack
 
 | Layer        | Technology                        |
 | ------------ | --------------------------------- |
@@ -160,7 +159,7 @@ This stage intentionally **ignores scale, multi-city logic, and real-time featur
 
 ---
 
-## 🗂️ Project Structure
+## Project Structure
 
 ```bash
 src/
@@ -178,7 +177,7 @@ prisma/
 └── schema.prisma # Database schema
 ```
 
-## 🧩 Data Model
+## Data Model
 
 ### User
 
@@ -208,7 +207,7 @@ prisma/
 
 ---
 
-## 🔐 Role Design
+## Role Design
 
 - Users are strictly separated into **Providers** and **Seekers** using a database enum:
 
