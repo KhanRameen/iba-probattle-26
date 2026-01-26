@@ -8,7 +8,7 @@ This repository implements **Stage 1: Neighborhood Pilot**, focusing on **role-b
 
 ---
 
-# Stage 2 - Provider & Seeker Features Implementation , Radius Base Discovery
+# Stage 2 - Provider & Seeker Features, Radius Base Discovery
 
 In **Stage 2**, I implemented the full backend and frontend functionality for both **Providers** and **Seekers**, including service creation, booking, ratings, filtering, neighborhood-based radius search using **Uber’s H3**, and caching with Redis. All core features are now live and working with RBAC (Role-Based Access Control).
 
@@ -48,12 +48,13 @@ SeekerName booked Service1 - Status: PENDING [Rate Buttons 1-5]
 - Seekers can **browse services** with multiple filters:
   - Type, Category, Min/Max Price
   - **Radius filter** visualized as H3 hexagons around the user
-
-  ⬡ ⬡ ⬡
-  ⬡ ⬡ ⬡ ⬡ ⬡
+```
+      ⬡ ⬡ ⬡
+    ⬡ ⬡ ⬡ ⬡ ⬡
   ⬡ ⬡ USER ⬡ ⬡
-  ⬡ ⬡ ⬡ ⬡
-  ⬡ ⬡
+    ⬡ ⬡ ⬡ ⬡
+      ⬡ ⬡
+```
   
   - Services include provider name, price, description, and any ratings
 
