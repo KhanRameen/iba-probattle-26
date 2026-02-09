@@ -1,13 +1,11 @@
-// // app/api/users/me/route.ts
 import { auth } from "@/utils/lib/auth";
 import { prisma } from "@/utils/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
   try {
-    // Get session using request headers
     const session = await auth.api.getSession({
-      headers: req.headers, // important!
+      headers: req.headers,
     });
 
     if (!session?.user) {
