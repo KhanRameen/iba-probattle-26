@@ -3,7 +3,7 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 // import { Input } from "@/components/ui/input";
 // import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
@@ -40,39 +40,47 @@ export default function SeekerProfile() {
     // const [searchQuery, setSearchQuery] = useState("");
     const [searchQuery] = useState("");
 
+    console.log(services,loading)
+
     // Redirect if not logged in
     useEffect(() => {
         if (!authLoading && !user) router.push("/auth");
     }, [authLoading, user, router]);
 
-    // Fetch services available to seeker
-    const fetchServices =  useCallback(async () => {
-        setLoading(true);
-        try {
-            const params = new URLSearchParams();
-            if (searchQuery) params.append("search", searchQuery);
+     // Fetch services available to seeker
+  const fetchServices = useCallback(async () => {
+    setLoading(true);
+    try {
+      const params = new URLSearchParams();
+      if (searchQuery) params.append("search", searchQuery);
 
-            const res = await fetch(`/api/services?${params.toString()}`);
-            if (res.ok) setServices(await res.json());
-            else setServices([]);
-        } catch (err) {
-            console.error(err);
-            setServices([]);
-        } finally {
-            setLoading(false);
-            console.log(services, loading)
-        }
-    }, []);
+      const res = await fetch(`/api/services?${params.toString()}`);
+      if (res.ok) {
+        const data: Service[] = await res.json();
+        setServices(data);
+      } else {
+        setServices([]);
+      }
+    } catch (err) {
+      console.error(err);
+      setServices([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [searchQuery]);
 
     // Fetch seeker bookings
     const fetchBookings = useCallback(async () => {
-        try {
-            const res = await fetch("/api/bookings");
-            if (res.ok) setBookings(await res.json());
-        } catch (err) {
-            console.error(err);
-        }
-    }, []);
+    try {
+      const res = await fetch("/api/bookings");
+      if (res.ok) {
+        const data: Booking[] = await res.json();
+        setBookings(data);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }, []);
 
     useEffect(() => {
         if (!authLoading && user) {

@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { MapPin, Search, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { ServiceCard } from "@/components/service-card";
@@ -84,7 +84,7 @@ export default function Home() {
   }, []);
 
   // Fetch services
-  const fetchServices = async () => {
+  const fetchServices = useCallback(async () => {
     setLoading(true);
     try {
       const params = new URLSearchParams();
@@ -108,7 +108,7 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filters]);
 
   // Fetch services when filters or user are ready
   useEffect(() => {
