@@ -10,9 +10,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import { Service } from "./service-card";
 
 interface Props {
-    service: any;
+    service: Service
     open: boolean;
     onOpenChange: (open: boolean) => void;
     onSuccess: () => void;
@@ -49,7 +50,7 @@ export function BookingDialog({
             onSuccess();
             onOpenChange(false);
         } catch (err) {
-            alert("Something went wrong");
+            alert(`Something went wrong. Error:${err}` );
         } finally {
             setLoading(false);
         }

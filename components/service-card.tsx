@@ -5,22 +5,24 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge";
 import { Star } from "lucide-react";
 
+export interface Service {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  type: string;
+  price: number;
+  h3Index: string;
+  providerId: string;
+  provider: { name: string };
+  bookings: Array<{ id: string; seekerId: string; rating: number | null }>;
+}
+
+
 interface ServiceCardProps {
-    service: {
-        id: string;
-        title: string;
-        description: string;
-        price: number;
-        type: string;
-        provider: {
-            name: string;
-        };
-        bookings: {
-            rating: number | null;
-        }[];
-    };
+    service:Service
     isOwnService: boolean;
-    onBook: (service: any) => void;
+    onBook: (service: Service) => void;
 }
 
 export function ServiceCard({

@@ -2,6 +2,7 @@ import { prisma } from "@/utils/lib/prisma";
 import { redis } from "@/utils/redis";
 
 export async function GET(req: Request) {
+  console.log(req.url);
   const cacheKey = "services:all";
 
   // Check Redis first

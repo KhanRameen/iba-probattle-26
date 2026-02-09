@@ -39,7 +39,14 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    const userH3 = user.neighborhood.h3Index;
+    const userH3 = user.neighborhood?.h3Index;
+
+    if (!userH3) {
+      return NextResponse.json(
+        { error: "User does not have a neighborhood with H3 index" },
+        { status: 400 },
+      );
+    }
 
     const nearbyCells = gridDisk(userH3, k);
 
