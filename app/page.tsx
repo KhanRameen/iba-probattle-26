@@ -243,12 +243,13 @@ export default function Home() {
         )}
       </section>
 
+{selectedService && (
       <BookingDialog
         service={selectedService}
         open={bookingOpen}
         onOpenChange={setBookingOpen}
         onSuccess={fetchServices}
-      />
+      />)}
     </div>
   );
 }
