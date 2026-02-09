@@ -2,10 +2,10 @@
 
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+// import { Input } from "@/components/ui/input";
+// import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { Navbar } from "@/components/navbar";
 import { useAuth } from "@/components/providers/auth-provider";
@@ -37,7 +37,8 @@ export default function SeekerProfile() {
     const [services, setServices] = useState<Service[]>([]);
     const [bookings, setBookings] = useState<Booking[]>([]);
     const [loading, setLoading] = useState(true);
-    const [searchQuery, setSearchQuery] = useState("");
+    // const [searchQuery, setSearchQuery] = useState("");
+    const [searchQuery] = useState("");
 
     // Redirect if not logged in
     useEffect(() => {
@@ -45,7 +46,7 @@ export default function SeekerProfile() {
     }, [authLoading, user, router]);
 
     // Fetch services available to seeker
-    const fetchServices = async () => {
+    const fetchServices =  useCallback(async () => {
         setLoading(true);
         try {
             const params = new URLSearchParams();
@@ -59,18 +60,19 @@ export default function SeekerProfile() {
             setServices([]);
         } finally {
             setLoading(false);
+            console.log(services, loading)
         }
-    };
+    }, []);
 
     // Fetch seeker bookings
-    const fetchBookings = async () => {
+    const fetchBookings = useCallback(async () => {
         try {
             const res = await fetch("/api/bookings");
             if (res.ok) setBookings(await res.json());
         } catch (err) {
             console.error(err);
         }
-    };
+    }, []);
 
     useEffect(() => {
         if (!authLoading && user) {
@@ -79,25 +81,25 @@ export default function SeekerProfile() {
         }
     }, [authLoading, user]);
 
-    const handleBook = async (serviceId: string) => {
-        try {
-            const res = await fetch("/api/bookings", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ serviceId }),
-            });
-            if (res.ok) {
-                toast.success("Booked successfully");
-                fetchBookings();
-            } else {
-                const err = await res.json();
-                toast.error(err?.error || "Failed to book");
-            }
-        } catch (err) {
-            console.error(err);
-            toast.error("Error booking service");
-        }
-    };
+    // const handleBook = async (serviceId: string) => {
+    //     try {
+    //         const res = await fetch("/api/bookings", {
+    //             method: "POST",
+    //             headers: { "Content-Type": "application/json" },
+    //             body: JSON.stringify({ serviceId }),
+    //         });
+    //         if (res.ok) {
+    //             toast.success("Booked successfully");
+    //             fetchBookings();
+    //         } else {
+    //             const err = await res.json();
+    //             toast.error(err?.error || "Failed to book");
+    //         }
+    //     } catch (err) {
+    //         console.error(err);
+    //         toast.error("Error booking service");
+    //     }
+    // };
 
     if (authLoading || !user) {
         return (
